@@ -2,7 +2,7 @@
  * Configuration for API client
  */
 const API_CONFIG = {
-  baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000',
+  baseUrl: import.meta.env.VITE_BASE_URL,
   timeout: parseInt(import.meta.env.VITE_API_TIMEOUT || '30000', 10),
   enableLogging: import.meta.env.VITE_ENABLE_LOGGING === 'true',
 } as const;
