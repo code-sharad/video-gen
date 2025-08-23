@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "npx tsc",
     "start": "node dist/main.js",
     "dev": "nodemon --exec tsx src/main.ts",
     "db:migrate": "echo 'MongoDB in use; no SQL migrations'"
