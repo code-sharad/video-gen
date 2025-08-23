@@ -2,7 +2,7 @@
 FROM node:18-alpine AS builder
 
 # Install pnpm globally
-RUN npm install -g pnpm
+RUN npm install -g pnpm typescript
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ RUN pnpm run build
 FROM node:18-alpine AS production
 
 # Install pnpm globally
-RUN npm install -g pnpm
+RUN npm install -g pnpm typescript
 
 WORKDIR /app
 
