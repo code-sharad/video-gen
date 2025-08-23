@@ -34,23 +34,7 @@ const getAllowedOrigins = (): string[] => {
 };
 
 app.use(cors({
-  origin: (origin, callback) => {
-    const allowedOrigins = getAllowedOrigins();
-
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
-
-    // Check if origin is allowed
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    // Log blocked requests for debugging
-    console.warn(`🚫 CORS blocked request from origin: ${origin}`);
-    console.log(`✅ Allowed origins: ${allowedOrigins.join(', ')}`);
-
-    return callback(new Error('Not allowed by CORS policy'), false);
-  },
+  origin: process.env.CORS_ORIGIN || '*',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
   allowedHeaders: [
@@ -67,28 +51,8 @@ app.use(cors({
   preflightContinue: false // Pass control to next handler
 }));
 
-/**
- * Explicit OPTIONS handler for preflight requests
- * This ensures CORS preflight requests are handled correctly
- */
-app.options('*', (req: Request, res: Response) => {
-  const allowedOrigins = getAllowedOrigins();
-  const origin = req.headers.origin;
 
-  if (!origin || allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin || '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, HEAD');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-requested-with, Accept, Origin, Cache-Control, X-Requested-With');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Max-Age', '86400'); // 24 hours
-  }
 
-  res.sendStatus(200);
-});
-
-/**
- * Body parsing middleware
- */
 app.use(express.json({
   limit: '10mb', // Allow larger payloads for video metadata
   type: 'application/json'
