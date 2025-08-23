@@ -1,11 +1,4 @@
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY dist/ ./dist/
-EXPOSE 5000
-CMD ["node", "dist/main.js"]
-# Use official Node.js LTS image
+
 FROM node:18-alpine
 
 # Set working directory
