@@ -15,8 +15,10 @@ interface EnvironmentConfig {
   googleApiKey: string;
   /** MongoDB connection URL */
   mongodbUrl: string;
-  /** CORS allowed origin */
+  /** CORS allowed origin (primary) */
   corsOrigin: string;
+  /** Additional CORS origins (comma-separated) */
+  additionalCorsOrigins?: string;
   /** AWS configuration */
   aws: {
     /** AWS region */
@@ -45,6 +47,7 @@ export const config: EnvironmentConfig = {
   googleApiKey: process.env.GOOGLE_API_KEY || '',
   mongodbUrl: process.env.MONGODB_URL || '',
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  ...(process.env.ADDITIONAL_CORS_ORIGINS && { additionalCorsOrigins: process.env.ADDITIONAL_CORS_ORIGINS }),
 
   // AWS Configuration
   aws: {
