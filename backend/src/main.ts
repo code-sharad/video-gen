@@ -12,26 +12,6 @@ import { type ApiResponse } from './types/index.js';
  */
 const app: Application = express();
 
-/**
- * CORS configuration for cross-origin requests
- * Supports multiple origins for different environments
- */
-const getAllowedOrigins = (): string[] => {
-  const origins = [
-    config.corsOrigin, // Primary configured origin
-    'http://localhost:3000', // Local development
-    'http://localhost:5173', // Vite dev server
-    'https://video-genai31.vercel.app', // Production Vercel deployment
-  ];
-
-  // Add any additional origins from environment variable
-  if (process.env.ADDITIONAL_CORS_ORIGINS) {
-    const additionalOrigins = process.env.ADDITIONAL_CORS_ORIGINS.split(',').map(origin => origin.trim());
-    origins.push(...additionalOrigins);
-  }
-
-  return [...new Set(origins)]; // Remove duplicates
-};
 
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
@@ -47,8 +27,6 @@ app.use(cors({
     'X-Requested-With'
   ],
   exposedHeaders: ['Content-Range', 'X-Content-Range'],
-  optionsSuccessStatus: 200, // Support legacy browsers
-  preflightContinue: false // Pass control to next handler
 }));
 
 
