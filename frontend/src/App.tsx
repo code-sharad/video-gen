@@ -8,7 +8,6 @@ import { Sparkles, Zap, Command } from 'lucide-react';
 import VideoList from './components/VideoList';
 import GenerationProgress from './components/GenerationProgress';
 import ThemeToggle from './components/ThemeToggle';
-import DotGrid from './components/DotGrid';
 import './index.css';
 
 export default function App() {
@@ -60,7 +59,6 @@ export default function App() {
 
   return (
     <>
-      <DotGrid />
 
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8">
@@ -69,7 +67,7 @@ export default function App() {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-                  Video GENAI
+                  Video Generator AI 🎬
                 </h1>
               </div>
             </div>
@@ -97,12 +95,12 @@ export default function App() {
                 <Textarea
                   placeholder="E.g., A cinematic drone shot over snowy mountains at sunrise with warm golden lighting..."
                   value={prompt}
-                  className="min-h-[120px] pr-40 resize-none bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20"
+                  className="min-h-[120px] -z-10 resize-none bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20"
                   onChange={(e) => setPrompt(e.target.value)}
                   onKeyDown={handleKeyDown}
                 />
 
-                <div className="absolute bottom-3 right-3 flex items-center gap-3">
+                <div className="absolute bottom-3 bg-black rounded-lg right-3 flex items-center gap-3">
                   {loading && (
                     <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
                       <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
@@ -113,7 +111,7 @@ export default function App() {
                   <Button
                     onClick={onGenerate}
                     disabled={loading || !prompt.trim()}
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm"
+                    className=" z-10 bg-black  text-white hover:bg-primary/90  shadow-sm"
                   >
                     {loading ? (
                       <>
@@ -122,8 +120,9 @@ export default function App() {
                       </>
                     ) : (
                       <>
-                        <Zap className="h-4 w-4 mr-2" />
-                        Generate Video
+                        <Zap className="h-4 w-4 mr-2 " />
+                          <span className="hidden md:inline">Generate Video</span>
+                          <span className="md:hidden">Generate</span>
                       </>
                     )}
                   </Button>
