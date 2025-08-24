@@ -13,6 +13,7 @@ A modern web application that generates videos using Google's Veo AI model, with
 - **Theme System**: Light/Dark/System theme switching
 
 ## 🏗️ Architecture
+<img width="725" height="247" alt="image" src="https://github.com/user-attachments/assets/94853d3c-9d59-4ff4-8423-f1ba1d689124" />
 
 
 
