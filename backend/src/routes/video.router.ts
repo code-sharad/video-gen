@@ -29,14 +29,17 @@ router.get('/list', async (req: Request, res: Response<ApiResponse<Array<{ key: 
 
     // const videos = await veoService.listVideos(expiresIn);
     const videos = await VideoModel.find();
-    const videos_signedUrl = await Promise.all(videos.map(async (video) => {
+    const formattedVideos = await Promise.all(videos.map(async (video) => {
       const url = await s3Service.getSignedUrl(video.s3Key, expiresIn);
-      video.downloadUri = url;
+      return {
+        key: video.s3Key,
+        url: url,
+        lastModified: video.updatedAt
+      };
     }));
-    // console.log(`Retrieved ${videos.length} videos from database`, videos);
     return res.status(200).json({
       success: true,
-      data: videos,
+      data: formattedVideos,
       message: `Retrieved ${videos.length} videos successfully`
     });
   } catch (error) {
