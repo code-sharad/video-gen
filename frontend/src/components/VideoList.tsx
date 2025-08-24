@@ -26,7 +26,7 @@ const VideoCard = ({ video }: { video: ListedVideo }) => {
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(video.downloadUri);
+      await navigator.clipboard.writeText(video.url);
       setCopiedKey(video.key);
       setTimeout(() => setCopiedKey(null), 1500);
     } catch {
@@ -38,7 +38,7 @@ const VideoCard = ({ video }: { video: ListedVideo }) => {
     <Card className="mb-4 break-inside-avoid overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md hover:border-border/60">
       <div className="relative group">
         <video
-          src={video.downloadUri}
+          src={video.url}
           controls
           className="w-full h-auto bg-muted/20"
           preload="metadata"
@@ -47,7 +47,7 @@ const VideoCard = ({ video }: { video: ListedVideo }) => {
       </div>
 
       <CardContent className="p-3 space-y-2">
-      
+
 
         <div className="flex items-center justify-between">
           <div className="space-y-1 text-xs text-muted-foreground">
@@ -67,7 +67,7 @@ const VideoCard = ({ video }: { video: ListedVideo }) => {
 
           <div className="flex items-center gap-2">
             <Button asChild size="sm" variant="outline" className="h-7 px-2 text-xs">
-              <a href={video.downloadUri} target="_blank" rel="noreferrer">
+              <a href={video.url} target="_blank" rel="noreferrer">
                 <ExternalLink className="h-3 w-3 mr-1" />
                 Open
               </a>

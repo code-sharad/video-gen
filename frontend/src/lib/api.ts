@@ -66,14 +66,14 @@ export type ApiResponse<T> = {
 
 export type ListedVideo = {
   key: string;
-  downloadUri: string; // presigned GET url
+  url: string; // presigned GET url
   size?: number;
   lastModified?: string; // ISO string for client
 };
 
 export async function listVideos(expiresIn?: number): Promise<ListedVideo[]> {
   const qs = expiresIn ? `?expiresIn=${encodeURIComponent(expiresIn)}` : '';
-  const response = await apiRequest<Array<{ key: string; downloadUri: string; size?: number; lastModified?: string | Date }>>(`/videos/list${qs}`);
+  const response = await apiRequest<Array<{ key: string; url: string; size?: number; lastModified?: string | Date }>>(`/videos/list${qs}`);
 
   if (!response.success || !response.data) {
     throw new Error(response.error || 'Failed to list videos');
