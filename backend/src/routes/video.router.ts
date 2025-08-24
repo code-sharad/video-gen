@@ -27,8 +27,13 @@ router.get('/list', async (req: Request, res: Response<ApiResponse<Array<{ key: 
       ? Math.max(60, Math.min(86400, Number(expiresInRaw))) // 1 minute to 24 hours
       : 3600; // Default 1 hour
 
-    const videos = await veoService.listVideos(expiresIn);
-
+    // const videos = await veoService.listVideos(expiresIn);
+    const videos = await VideoModel.find();
+    const videos_signedUrl = await Promise.all(videos.map(async (video) => {
+      const url = await s3Service.getSignedUrl(video.s3Key, expiresIn);
+      video.downloadUri = url;
+    }));
+    // console.log(`Retrieved ${videos.length} videos from database`, videos);
     return res.status(200).json({
       success: true,
       data: videos,

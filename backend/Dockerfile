@@ -1,5 +1,4 @@
-# Use multi-stage build for optimal production image
-FROM node:18-alpine AS builder
+FROM node:18-alpine
 
 WORKDIR /app
 
