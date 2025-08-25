@@ -12,22 +12,21 @@ import { type ApiResponse } from './types/index.js';
  */
 const app: Application = express();
 
-app.use(cors());
-// app.use(cors({
-//   origin: process.env.CORS_ORIGIN || '*',
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
-//   allowedHeaders: [
-//     'Content-Type',
-//     'Authorization',
-//     'x-requested-with',
-//     'Accept',
-//     'Origin',
-//     'Cache-Control',
-//     'X-Requested-With'
-//   ],
-//   exposedHeaders: ['Content-Range', 'X-Content-Range'],
-// }));
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'x-requested-with',
+    'Accept',
+    'Origin',
+    'Cache-Control',
+    'X-Requested-With'
+  ],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+}));
 
 
 
