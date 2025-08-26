@@ -22,20 +22,20 @@ const VideoSkeleton = ({ index }: { index: number }) => {
 };
 
 const VideoCard = ({ video }: { video: ListedVideo }) => {
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null);
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(video.url);
-      setCopiedKey(video.key);
-      setTimeout(() => setCopiedKey(null), 1500);
+      await navigator.clipboard.writeText(video.prompt);
+      setCopiedPrompt(video.prompt);
+      setTimeout(() => setCopiedPrompt(null), 1500);
     } catch {
       // Ignore copy errors silently
     }
   };
 
   return (
-    <Card className="mb-4 break-inside-avoid overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md hover:border-border/60">
+    <Card className="mb-4  overflow-hidden rounded-lg border bg-card shadow-sm  transition-all hover:shadow-md hover:border-border/60">
       <div className="relative group">
         <video
           src={video.url}
@@ -43,14 +43,17 @@ const VideoCard = ({ video }: { video: ListedVideo }) => {
           className="w-full h-auto bg-muted/20"
           preload="metadata"
         />
+
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none" />
       </div>
 
       <CardContent className="p-3 space-y-2">
 
 
+        <p className='truncate'>{video.prompt}</p>
         <div className="flex items-center justify-between">
           <div className="space-y-1 text-xs text-muted-foreground">
+
             {video.lastModified && (
               <div className="flex items-center gap-1">
                 <span>Updated:</span>
@@ -79,7 +82,7 @@ const VideoCard = ({ video }: { video: ListedVideo }) => {
               className="h-7 px-2 text-xs"
               onClick={handleCopyLink}
             >
-              {copiedKey === video.key ? (
+              {copiedPrompt === video.prompt ? (
                 <>
                   <Check className="h-3 w-3 mr-1 text-green-500" />
                   Copied
@@ -135,10 +138,11 @@ export default function VideoList({ videos, loading, onRefresh }: VideoListProps
           </CardContent>
         </Card>
       ) : (
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 [column-fill:balance]">
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-3 gap-4 ">
           {videos.map((video) => (
             <VideoCard key={video.key} video={video} />
           ))}
+
         </div>
       )}
     </div>

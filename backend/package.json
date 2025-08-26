@@ -2,13 +2,17 @@
   "name": "video-gen-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/lambda.js",
   "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/main.js",
     "dev": "nodemon --exec tsx src/main.ts",
-    "db:migrate": "echo 'MongoDB in use; no SQL migrations'"
+    "db:migrate": "echo 'MongoDB in use; no SQL migrations'",
+    "deploy": "npm run build && serverless deploy --verbose",
+    "deploy:prod": "npm run build && serverless deploy --stage prod",
+    "sls:offline": "npm run build && serverless offline",
+    "sls:logs": "serverless logs -f app --tail"
   },
   "keywords": [],
   "author": "",
@@ -23,13 +27,17 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "mongoose": "^8.18.0",
-    "typescript": "^5.9.2"
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
     "nodemon": "^3.1.10",
+    "serverless": "^3.40.0",
+    "serverless-esbuild": "^1.55.1",
+    "serverless-offline": "^13.3.0",
+    "typescript": "^5.9.2",
     "tsx": "^4.20.4"
   }
 }

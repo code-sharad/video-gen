@@ -32,6 +32,7 @@ router.get('/list', async (req: Request, res: Response<ApiResponse<Array<{ key: 
     const formattedVideos = await Promise.all(videos.map(async (video) => {
       const url = await s3Service.getSignedUrl(video.s3Key, expiresIn);
       return {
+        prompt: video.prompt,
         key: video.s3Key,
         url: url,
         lastModified: video.updatedAt

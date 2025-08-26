@@ -10,7 +10,7 @@ import { type ApiResponse } from './types/index.js';
  * Express application for Video Generation API
  * Handles video generation using Google's Veo API and S3 storage
  */
-const app: Application = express();
+export const app: Application = express();
 
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
@@ -158,5 +158,7 @@ async function startServer(): Promise<void> {
   }
 }
 
-// Start the application
-startServer();
+// Start the application only if not in serverless environment
+if (process.env.NODE_ENV !== 'serverless' && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  startServer();
+}

@@ -1,3 +1,4 @@
+
 /**
  * Configuration for API client
  */
@@ -65,6 +66,7 @@ export type ApiResponse<T> = {
 };
 
 export type ListedVideo = {
+  prompt: string;
   key: string;
   url: string; // presigned GET url
   size?: number;
@@ -73,14 +75,15 @@ export type ListedVideo = {
 
 export async function listVideos(expiresIn?: number): Promise<ListedVideo[]> {
   const qs = expiresIn ? `?expiresIn=${encodeURIComponent(expiresIn)}` : '';
-  const response = await apiRequest<Array<{ key: string; url: string; size?: number; lastModified?: string | Date }>>(`/videos/list${qs}`);
+  const response = await apiRequest<Array<{ key: string; url: string; prompt: string; size?: number; lastModified?: string | Date }>>(`/videos/list${qs}`);
 
   if (!response.success || !response.data) {
     throw new Error(response.error || 'Failed to list videos');
   }
 
-  return response.data.map(v => ({
+  return response.data.map((v) => ({
     ...v,
+    prompt: v.prompt, // Remove timestamp suffix to get original prompt
     lastModified: v.lastModified ? new Date(v.lastModified as string | Date).toISOString() : undefined
   }));
 }

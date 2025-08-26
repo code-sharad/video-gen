@@ -1,0 +1,50 @@
+service: video-gen-backend
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512
+  timeout: 30
+  httpApi:
+    cors:
+      allowedOrigins:
+        - ${env:CORS_ORIGIN, '*'}
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      allowCredentials: false
+
+
+functions:
+  app:
+    image: ${env:ECR_IMAGE_URI}
+    environment:
+      NODE_ENV: ${env:NODE_ENV, 'production'}
+      MONGODB_URL: ${env:MONGODB_URL, ''}
+      GOOGLE_API_KEY: ${env:GOOGLE_API_KEY, ''}
+      CORS_ORIGIN: ${env:CORS_ORIGIN, 'https://video-genai31.vercel.app'}
+      S3_BUCKET_NAME: ${env:S3_BUCKET_NAME, 'video-genai-s3'}
+      S3_BUCKET_REGION: ${env:S3_BUCKET_REGION, 'ap-south-1'}
+      CUSTOM_AWS_REGION: ${env:CUSTOM_AWS_REGION, 'ap-south-1'}
+      PORT: '8080'
+    events:
+      - httpApi:
+          method: ANY
+          path: /
+      - httpApi:
+          method: ANY
+          path: /{proxy+}
+
+plugins:
+  - serverless-offline
